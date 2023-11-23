@@ -2,7 +2,7 @@
 
 ## Неофициальная сборка карт для загрузки в навигационные программы телефонов и планшетов
 
-Карты соответствуют исходникам лета 2023 года.
+Карты соответствуют исходникам ноября 2023 года.
 
 Формат sqlitedb предназначен для программы OSMAnd.
 Для большинства других программ нужно использовать стандартный формат mbtiles.
@@ -11,21 +11,21 @@
 
 Файлы с суффиксом hq (повышенной чёткости) содержат в себе плитки с диапазоном параметра Z от 1 до 15, без суффикса -- с диапазоном от 1 до 14.
 
-[Карты mbtiles повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-light-hq.mbtiles)
+[Карты mbtiles повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-light-hq.mbtiles)
 
-[Карты sqlitedb повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-light-hq.sqlitedb)
+[Карты sqlitedb повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-light-hq.sqlitedb)
 
-[Карты mbtiles](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-light.mbtiles)
+[Карты mbtiles](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-light.mbtiles)
 
-[Карты sqlitedb](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-light.sqlitedb)
+[Карты sqlitedb](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-light.sqlitedb)
 
-[Ночные карты mbtiles повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-dark-hq.mbtiles)
+[Ночные карты mbtiles повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-dark-hq.mbtiles)
 
-[Ночные карты sqlitedb повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-dark-hq.sqlitedb)
+[Ночные карты sqlitedb повышенной чёткости](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-dark-hq.sqlitedb)
 
-[Ночные карты mbtiles](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-dark.mbtiles)
+[Ночные карты mbtiles](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-dark.mbtiles)
 
-[Ночные карты sqlitedb](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.06/slazav-dark.sqlitedb)
+[Ночные карты sqlitedb](https://github.com/kazantsev-a-s/slazav-tiles/releases/download/2023.11/slazav-dark.sqlitedb)
 
 Предыдущие неофициальные сборки [тут.](https://github.com/kazantsev-a-s/slazav-tiles/releases)
 
