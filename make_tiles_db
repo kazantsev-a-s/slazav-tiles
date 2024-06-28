@@ -6,7 +6,9 @@ SQLITEDB=slazav                # Базовое имя файла с карта�
 MBTILES=slazav                 # Базовое имя файла с картами в формате MBTiles
 ZMAX=15 # Для больших Z может потребоваться увеличить системные лимиты (ulimit)
 
-TILES_DB_DIR=TILES_DB
+[ "$ZMAX" == "15" ] && SUFFIX="-hq" || SUFFIX="" # Автодобавление суффикса
+
+TILES_DB_DIR=TILES_DB_$ZMAX
 MS2RENDER=ms2render
 MS2NOM=ms2nom
 
@@ -47,7 +49,7 @@ for brd_file in brd/*.gpx; do
 
 	# Вычислим подходящий DPI для укладки 16 шаблонов вырубок в плитке:
 	lat=`$MS2NOM -n $name -c | tr "[]," "   " | awk '{ print $2 }'`
-	dpi=`echo $lat | awk '{ print 133.33333 * 16/16 /(cos($1*3.1415926/180)) }'`
+	dpi=`echo $lat | awk '{ print 133.33333 * 24/16 /(cos($1*3.1415926/180)) }'`
 
     $MS2RENDER $vmap --config render.cfg \
       -t types.cfg \
@@ -91,9 +93,9 @@ for maptype in light dark; do
   echo Записываем плитки $maptype в готовые файлы
 
   # Создадим пустые базы обоих типов
-  sqlite3 $SQLITEDB-$maptype.sqlitedb 'CREATE TABLE tiles (x int, y int, z int, image blob,
+  sqlite3 $SQLITEDB-$maptype$SUFFIX.sqlitedb 'CREATE TABLE tiles (x int, y int, z int, image blob,
     PRIMARY KEY (x,y,z));'
-  sqlite3 $MBTILES-$maptype.mbtiles 'CREATE TABLE tiles (tile_column int, tile_row int,
+  sqlite3 $MBTILES-$maptype$SUFFIX.mbtiles 'CREATE TABLE tiles (tile_column int, tile_row int,
     zoom_level int, tile_data blob,
     PRIMARY KEY (tile_column, tile_row, zoom_level));'
 
@@ -105,7 +107,7 @@ for maptype in light dark; do
     read ignore z x y ignore <<< $tile
     echo -n "INSERT INTO tiles (x, y, z, image) VALUES "
     echo     "($x, $y, $z, readfile('$maptype/${z}/${x}-${y}.png'));"
-  done ) | sqlite3 $SQLITEDB-$maptype.sqlitedb
+  done ) | sqlite3 $SQLITEDB-$maptype$SUFFIX.sqlitedb
 
   # Запишем плитки в файл mbtiles
   find $maptype -type f -name '*.png' | sed "y|/-.|   |" | \
@@ -116,16 +118,16 @@ for maptype in light dark; do
     echo -n "INSERT INTO tiles (tile_column, tile_row, "
     echo -n "zoom_level, tile_data) VALUES "
     echo    "($x, $((2**z-1-y)), $z, readfile('$maptype/${z}/${x}-${y}.png'));"
-  done ) | sqlite3 $MBTILES-$maptype.mbtiles
+  done ) | sqlite3 $MBTILES-$maptype$SUFFIX.mbtiles
 
   # Создадим ещё по одной нужной таблице в sqlitedb и mbtiles
-  sqlite3 $SQLITEDB-$maptype.sqlitedb "CREATE TABLE info (tilenumbering text, minzoom int,
+  sqlite3 $SQLITEDB-$maptype$SUFFIX.sqlitedb "CREATE TABLE info (tilenumbering text, minzoom int,
     maxzoom int);"
-  sqlite3 $SQLITEDB-$maptype.sqlitedb "INSERT INTO info (tilenumbering, minzoom, maxzoom)
+  sqlite3 $SQLITEDB-$maptype$SUFFIX.sqlitedb "INSERT INTO info (tilenumbering, minzoom, maxzoom)
     VALUES ('', (SELECT min(z) FROM tiles), (SELECT max(z) FROM tiles))"
-  sqlite3 $MBTILES-$maptype.mbtiles "CREATE TABLE metadata (format text, minzoom int,
+  sqlite3 $MBTILES-$maptype$SUFFIX.mbtiles "CREATE TABLE metadata (format text, minzoom int,
     maxzoom int);"
-  sqlite3 $MBTILES-$maptype.mbtiles "INSERT INTO metadata (format, minzoom, maxzoom)
+  sqlite3 $MBTILES-$maptype$SUFFIX.mbtiles "INSERT INTO metadata (format, minzoom, maxzoom)
     VALUES ('png', (SELECT min(zoom_level) FROM tiles),
     (SELECT max(zoom_level) FROM tiles))"
 done
