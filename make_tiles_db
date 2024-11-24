@@ -49,7 +49,7 @@ for brd_file in brd/*.gpx; do
 
 	# Вычислим подходящий DPI для укладки 16 шаблонов вырубок в плитке:
 	lat=`$MS2NOM -n $name -c | tr "[]," "   " | awk '{ print $2 }'`
-	dpi=`echo $lat | awk '{ print 133.33333 * 24/16 /(cos($1*3.1415926/180)) }'`
+	dpi=`echo $lat | awk '{ print 400 * 16 / 24 / cos($1*3.14159265/180) }'`
 
     $MS2RENDER $vmap --config render.cfg \
       -t types.cfg \
